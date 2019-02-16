@@ -8,7 +8,7 @@ contract Sender is Ownable {
     mapping(address => uint) userToBalance;
 
     modifier hasEnoughFunds(uint _authorizeBalance) {
-        require(_authorizeBalance + authorizedBalanceTotal <= address(this).balance, "Can't authorized more balance than available");
+        require(_authorizeBalance + authorizedBalanceTotal <= address(this).balance, "Can't authorize more balance than available");
         _;
     }
 
@@ -19,5 +19,12 @@ contract Sender is Ownable {
     function addFundsToUser(uint _funds, address _user) external onlyOwner hasEnoughFunds {
         userToBalance[_user] += _funds;
         authorizedBalanceTotal += _funds;
+    }
+
+    function getMoneyFromContract(address _to, address _from, uint _amount) external {
+        require(userToBalance[_from] >= _amount, "User has not enough funds");
+        _to.transfer(_amount);
+        userToBalance[_from] -= _amount;
+        authorizedBalanceTotal -= _amount;
     }
 }
