@@ -46,21 +46,25 @@ contract("SplitterFactory", accounts => {
     } catch (err) {
       assert(err.reason === "invalid address");
     }
+    let isException = false;
     try {
       await this.instance.createSplitter(accounts[2], 91, {
         from: accounts[0]
       });
-      assert(false, "percentage can't be greater than 100");
     } catch (err) {
-      assert(err.reason === "percentage can't be greater than 100");
+      isException = true;
+      console.log("hey");
+      assert(err.reason === "percentage has to be between 1 and 100");
+    }
+    if (!isException) {
+      assert(false, "percentage has to be between 1 and 100");
     }
     try {
       await this.instance.createSplitter(accounts[2], 110, {
         from: accounts[0]
       });
-      assert(false, "percentage can't be greater than 100");
     } catch (err) {
-      assert(err.reason === "percentage can't be greater than 100");
+      assert(err.reason === "percentage has to be between 1 and 100");
     }
   });
 });

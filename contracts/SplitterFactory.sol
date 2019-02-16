@@ -19,6 +19,7 @@ contract SplitterFactory is Ownable {
     Splitter splitter = Splitter(splitterAddress);
     //TODO: Create splitter and check if percentage is less than 100
     splitter.createActor(_actor,_percentage);
+   
     splitters.push(splitter);
     emit LogCreateSplitter(_actor, _percentage, splitterAddress);
   }
@@ -27,5 +28,6 @@ contract SplitterFactory is Ownable {
     Splitter splitter = Splitter(_splitterAddress);
     return splitter.owner();
   }
+
 
 }
