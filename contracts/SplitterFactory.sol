@@ -18,13 +18,13 @@ contract SplitterFactory is Ownable {
     address splitterAddress = address(new Splitter(owner()));
     Splitter splitter = Splitter(splitterAddress);
     //TODO: Create splitter and check if percentage is less than 100
-    require(_percentage <= 100,"percentage has to be between 1 and 100");
+    splitter.createActor(_actor,_percentage);
     splitters.push(splitter);
     emit LogCreateSplitter(_actor, _percentage, splitterAddress);
   }
 
   function getSplitterOwner(address _splitterAddress) public view returns (address){
-     Splitter splitter = Splitter(_splitterAddress);
+    Splitter splitter = Splitter(_splitterAddress);
     return splitter.owner();
   }
 

@@ -20,4 +20,8 @@ contract Splitter{
     constructor(address _owner) public {
         owner = _owner;
     } 
+
+    function createActor(address _actor, uint _percentage) public {
+
+    }
 }
