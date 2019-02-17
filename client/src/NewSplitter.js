@@ -29,6 +29,7 @@ class NewSplitter extends Component {
       modalBody: "",
       modalTitle: ""
     };
+    this.web3 = drizzle.web3;
     this.onChangeName = this.onChangeName.bind(this);
     this.onChangePercentage = this.onChangePercentage.bind(this);
     this.onChangeAddress = this.onChangeAddress.bind(this);
@@ -109,6 +110,7 @@ class NewSplitter extends Component {
     const stackId = await this.props.drizzle.contracts.SplitterFactory.methods.createSplitter.cacheSend(
       this.state.address,
       this.state.percentage,
+      this.web3.utils.utf8ToHex(this.state.name),
       { from: this.props.drizzleState.account }
     );
     this.setState({ transactionId: stackId });
@@ -137,16 +139,27 @@ class NewSplitter extends Component {
               <Heading.h2>Create Splitter</Heading.h2>
               <Form className="form" onSubmit={this.onSubmitForm}>
                 <FormGroup>
+                  <Field label="Splitter Name">
+                    <Input
+                      name="name"
+                      value={this.state.name}
+                      onChange={this.onChangeName}
+                      fullWidth
+                      className="form-control"
+                    />
+                  </Field>
+                </FormGroup>
+                <FormGroup>
                   <Field label="Main Actor Address">
                     <Input
                       name="address"
                       value={this.state.address}
                       onChange={this.onChangeAddress}
                       fullWidth
+                      className="form-control"
                     />
                   </Field>
                 </FormGroup>
-
                 <FormGroup>
                   <Field label="Tip Percentage Split" className="">
                     <Input
@@ -154,6 +167,7 @@ class NewSplitter extends Component {
                       value={this.state.percentage}
                       onChange={this.onChangePercentage}
                       fullWidth
+                      className="form-control"
                     />
                   </Field>
                 </FormGroup>

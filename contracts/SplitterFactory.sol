@@ -13,14 +13,16 @@ contract SplitterFactory is Ownable {
 
   Splitter[] public splitters;
   address[] public splittersAddresses;
+  bytes32[] public splitterNames;
 
-  function createSplitter(address payable _actor, uint _percentage) public onlyOwner{
+  function createSplitter(address payable _actor, uint _percentage, bytes32 _name) public onlyOwner{
     require(_actor != address(0), 'invalid address');
     address payable splitterAddress = address(new Splitter(owner()));
     Splitter splitter = Splitter(splitterAddress);
     splitter.createActor(_actor,_percentage);
     splitters.push(splitter);
     splittersAddresses.push(splitterAddress);
+    splitterNames.push(_name);
     emit LogCreateSplitter(_actor, _percentage, splitterAddress);
   }
 
@@ -32,8 +34,8 @@ contract SplitterFactory is Ownable {
 
   //TODO: return el address y el nombre
   //TODO: guardar el nombre
-  function getSplitters()public view returns (address[] memory a ) {
-   return splittersAddresses;
+  function getSplitters()public view returns (address[] memory, bytes32[] memory) {
+   return (splittersAddresses,splitterNames);
 }
 
 /*
