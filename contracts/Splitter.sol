@@ -44,12 +44,12 @@ contract Splitter {
             actors[index].account.transfer(splittedAmount);
         }
 
-        if (remaining > 0 && actorss.length > 0) {
-            actors[0].transfer(remaining);
+        if (remaining > 0 && actors.length > 0) {
+            actors[0].account.transfer(remaining);
         }
     }
 
-     function split(uint _amount, uint _percentage) private pure returns(uint) {
+    function split(uint _amount, uint _percentage) private pure returns(uint) {
         return _amount.mul(_percentage).div(100);
     }
 
