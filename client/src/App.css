@@ -30,3 +30,21 @@
     transform: rotate(360deg);
   }
 }
+
+
+ul.nav{    
+  border-bottom: 1px #e2e2e294 solid;
+  padding-bottom: 10px;
+}
+
+.nav-item svg {
+  margin-top: -4px;
+}
+
+.red {
+  background-color: #a90000
+}
+
+.red:hover{
+  background-color: #d80b0b
+}

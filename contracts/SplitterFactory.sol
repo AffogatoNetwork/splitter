@@ -11,23 +11,34 @@ contract SplitterFactory is Ownable {
       _;
   }
 
-  Splitter[] public splitters ;
+  Splitter[] public splitters;
+  address[] public splittersAddresses;
 
-  function createSplitter(address _actor, uint _percentage) public onlyOwner{
+  function createSplitter(address payable _actor, uint _percentage) public onlyOwner{
     require(_actor != address(0), 'invalid address');
-    address splitterAddress = address(new Splitter(owner()));
+    address payable splitterAddress = address(new Splitter(owner()));
     Splitter splitter = Splitter(splitterAddress);
-    //TODO: Create splitter and check if percentage is less than 100
     splitter.createActor(_actor,_percentage);
-   
     splitters.push(splitter);
+    splittersAddresses.push(splitterAddress);
     emit LogCreateSplitter(_actor, _percentage, splitterAddress);
   }
 
-  function getSplitterOwner(address _splitterAddress) public view returns (address){
+  function appendSplitter(address payable splitterAddress, address payable _actor, uint _percentage) public{
+    Splitter splitter = Splitter(splitterAddress);
+    splitter.createActor(_actor,_percentage);
+    splitters.push(splitter);
+  }
+
+  function getSplitters()public view returns (address[] memory a ) {
+   return splittersAddresses;
+}
+
+/*
+  function getSplitterOwner(address payable _splitterAddress) public view returns (address){
     Splitter splitter = Splitter(_splitterAddress);
     return splitter.owner();
   }
-
+*/
 
 }

@@ -2,7 +2,6 @@ pragma solidity ^0.5.0;
 
 contract SplitterAlone{
 
-
     struct Actor{
         address payable account; 
         uint amount;
