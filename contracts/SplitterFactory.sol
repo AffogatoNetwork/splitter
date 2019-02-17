@@ -30,6 +30,8 @@ contract SplitterFactory is Ownable {
     splitters.push(splitter);
   }
 
+  //TODO: return el address y el nombre
+  //TODO: guardar el nombre
   function getSplitters()public view returns (address[] memory a ) {
    return splittersAddresses;
 }

@@ -39,6 +39,7 @@ contract Splitter{
         }
     }
 
+    //TODO: Split el reciduo
      function split(uint _amount, uint _percentage) private pure returns(uint){
         return _amount.mul(_percentage).div(100);
     }
