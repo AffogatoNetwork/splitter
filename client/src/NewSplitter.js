@@ -11,6 +11,7 @@ import {
   ModalFooter
 } from "reactstrap";
 import { Heading, Field, Input, Textarea, Select, Button } from "rimble-ui";
+import { withRouter } from "react-router";
 
 class NewSplitter extends Component {
   constructor(props) {
@@ -136,7 +137,7 @@ class NewSplitter extends Component {
               <Heading.h2>Create Splitter</Heading.h2>
               <Form className="form" onSubmit={this.onSubmitForm}>
                 <FormGroup>
-                  <Field label="Actor Address">
+                  <Field label="Main Actor Address">
                     <Input
                       name="address"
                       value={this.state.address}
@@ -166,4 +167,4 @@ class NewSplitter extends Component {
   }
 }
 
-export default NewSplitter;
+export default withRouter(NewSplitter);

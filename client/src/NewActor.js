@@ -10,6 +10,7 @@ import {
   ModalBody,
   ModalFooter
 } from "reactstrap";
+import { withRouter } from "react-router";
 import { Heading, Field, Input, Button } from "rimble-ui";
 
 class NewActor extends Component {
@@ -19,7 +20,7 @@ class NewActor extends Component {
     this.state = {
       name: "",
       percentage: "",
-      splitterAddress: "",
+      splitterAddress: props.match.params.splitterAddress,
       address: "",
       account: drizzleState.accounts[0],
       modal: false,
@@ -83,7 +84,6 @@ class NewActor extends Component {
               modalPending: false,
               name: "",
               address: "",
-              splitterAddress: "",
               percentage: ""
             });
           }
@@ -112,7 +112,8 @@ class NewActor extends Component {
 
   async onSubmitForm(event) {
     event.preventDefault();
-    const stackId = await this.props.drizzle.contracts.SplitterFactory.methods.createSplitter.cacheSend(
+    const stackId = await this.props.drizzle.contracts.SplitterFactory.methods.appendSplitter.cacheSend(
+      this.state.splitterAddress,
       this.state.address,
       this.state.percentage,
       { from: this.props.drizzleState.account }
@@ -149,6 +150,8 @@ class NewActor extends Component {
                       value={this.state.splitterAddress}
                       onChange={this.onChangeSplitterAddress}
                       fullWidth
+                      disabled
+                      className="form-control"
                     />
                   </Field>
                 </FormGroup>
@@ -159,7 +162,7 @@ class NewActor extends Component {
                       value={this.state.address}
                       onChange={this.onChangeAddress}
                       fullWidth
-                      readOnly
+                      className="form-control"
                     />
                   </Field>
                 </FormGroup>
@@ -170,6 +173,7 @@ class NewActor extends Component {
                       value={this.state.percentage}
                       onChange={this.onChangePercentage}
                       fullWidth
+                      className="form-control"
                     />
                   </Field>
                 </FormGroup>
@@ -183,4 +187,4 @@ class NewActor extends Component {
   }
 }
 
-export default NewActor;
+export default withRouter(NewActor);
