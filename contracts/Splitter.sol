@@ -3,11 +3,11 @@ pragma solidity ^0.5.0;
 import '../node_modules/openzeppelin-solidity/contracts/math/SafeMath.sol';
 import '../node_modules/openzeppelin-solidity/contracts/ownership/Ownable.sol';
 
-contract Splitter{
+contract Splitter {
 
     using SafeMath for uint256;
 
-    struct Actor{
+    struct Actor {
         address payable account; 
         uint percentage;
     }
@@ -19,28 +19,37 @@ contract Splitter{
     mapping(address => uint) public percentages;   
     mapping(address => Actor) public addresstoActor;
     Actor[] public actors;
+    mapping(address => uint) addressToId;
 
     constructor(address _owner) public {
         owner = _owner;
     } 
 
     function createActor(address payable _actor, uint _percentage) public {
+        require(addressToId[_actor] == 0);
         uint nextPercentage = currentTotalPercentage.add(_percentage);
-        require(nextPercentage <= 100,"percentage has to be between 1 and 100");
-        Actor memory actor = Actor(_actor,_percentage);
+        require(nextPercentage >= 1 && nextPercentage <= 100, "percentage has to be between 1 and 100");
+        Actor memory actor = Actor(_actor, _percentage);
         currentTotalPercentage = nextPercentage;
+        uint id = actors.length;
         actors.push(actor);
+        addressToId[_actor] = id;
     }
 
     function splitMoney(uint value) public {
+        uint remaining = value;
         for (uint index = 0; index < actors.length; index++) {
-            uint amountToTransfer = split(value, actors[index].percentage);
-            actors[index].account.transfer(amountToTransfer);
+            uint splittedAmount = split(value, actors[index].percentage);
+            remaining -= splittedAmount;
+            actors[index].account.transfer(splittedAmount);
+        }
+
+        if (remaining > 0 && actorss.length > 0) {
+            actors[0].transfer(remaining);
         }
     }
 
-    //TODO: Split el reciduo
-     function split(uint _amount, uint _percentage) private pure returns(uint){
+     function split(uint _amount, uint _percentage) private pure returns(uint) {
         return _amount.mul(_percentage).div(100);
     }
 
