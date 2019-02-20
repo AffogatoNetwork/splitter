@@ -7,7 +7,7 @@ Splitter is a smart contract that allows sending money to many actors through a 
 ### Example Use cases
 
 - Sending a tip in a coffee shop, and sharing the tip between the barista, cashier and farmer.
-- Donation campaigns where you want that x% of everything goes to another said.
+- Donation campaigns where you want that x% of everything goes to another org.
 - Revenue Share, a successful web 2.0 business model
 
 ### Contributing as a Developer/Designer
